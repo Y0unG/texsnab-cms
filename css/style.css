@@ -121,7 +121,7 @@ header .btn-basket img {
     word-wrap: break-word; }
 .jumbotron .best-pr-wrapper .best-pr .image {
     border: 1px solid rgba(100, 101, 102, 0.5);
-    padding: 30px; }
+    padding: 5px; }
 .jumbotron .best-pr-wrapper .best-pr .image img {
     max-width: 100%; }
 .jumbotron .best-pr-wrapper .best-pr .price {
@@ -134,22 +134,28 @@ header .btn-basket img {
     border-radius: 20px;
     font-weight: bold; }
 
-.tiny_products1 {
-    list-style: none;
-    display: block;
-    padding: 170px 0px 0px 45px;
-}
-.tiny_products1 .product{
-    width: 290px;
-    margin-right: 10px;
-    margin-bottom: 30px;
-    display: -moz-inline-box;
-    display: inline-block;
-    *zoom: 1;
-    *display: inline;
-    word-spacing: normal;
-    vertical-align: top;
-}
+/*.tiny_products_mini{*/
+    /*width:392px;*/
+    /*z-index: 1111;*/
+    /*position: relative;*/
+/*}*/
+
+/*.tiny_products1 {*/
+    /*list-style: none;*/
+    /*display: block;*/
+    /*padding: 170px 0px 0px 45px;*/
+/*}*/
+/*.tiny_products1 .product{*/
+    /*width: 290px;*/
+    /*margin-right: 10px;*/
+    /*margin-bottom: 30px;*/
+    /*display: -moz-inline-box;*/
+    /*display: inline-block;*/
+    /**zoom: 1;*/
+    /**display: inline;*/
+    /*word-spacing: normal;*/
+    /*vertical-align: top;*/
+/*}*/
 
 /*
   !jumbotron
@@ -260,6 +266,29 @@ header .btn-basket img {
     margin-left: -4px;
     width: 24%; }
 
+.browsed_products{
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.browsed_products li{
+    display: block;
+    float: left;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    margin: 0 7px 7px 0;
+    width: 50px;
+    height: 50px;
+}
+
+.browsed_products li a {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+}
 /*
   !Main catalog
  */

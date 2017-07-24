@@ -1,7 +1,6 @@
 {* Страница товара *}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="js/gallery.js"></script>
-
 {* Канонический адрес страницы *}
 {$canonical="/products/{$product->url}" scope=parent}
 

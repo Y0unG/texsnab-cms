@@ -161,13 +161,15 @@
 					</address>
 				</div>
 			</div>
+			<div class="col-xs-5 col-sm-4 col-lg-3">
+                {* Обновляемая аяксом корзина должна быть в отдельном файле *}
+                {include file='cart_informer.tpl'}
+			</div>
 		</div>
+
 	</div>
      <!-- Корзина -->
-		<div id="cart_informer">
-			{* Обновляемая аяксом корзина должна быть в отдельном файле *}
-			{include file='cart_informer.tpl'}
-		</div>
+
 		<!-- Корзина (The End)-->
 
 	{*	<!-- Вход пользователя -->
@@ -239,316 +241,264 @@
 					 <img class="tittle-small" src="design/{$settings->theme|escape}/images/prawo-sale-bg.png" width="346" height="285" alt=""/>
 					 <div class="best-pr">
 						 <div class="row">
-							 <div class="col-xs-4">
-                                 {get_discounted_products var=discounted_products category_id=[1211] limit=1}
-                                 {if $discounted_products}
-								 <!-- Список товаров-->
-								 <ul class="tiny_products1">
-                                     {foreach $discounted_products as $product}
-									 <!-- Товар-->
-									 <li class="product">
-								 <!-- Фото товара -->
-                                 {if $product->image}
-									 <div class="image">
-										 <a href="products/{$product->url}"><img src="{$product->image->filename|resize:200:200}" alt="{$product->name|escape}"/></a>
+							 <div itemscope itemtype="http://schema.org/Product">
+								 <div class="tiny_products_mini">
+									 {*Акционные товары*}
+                                     {get_discounted_products var=discounted_products category_id=[1211] limit=1}
+                                     {if $discounted_products}
+										 <!-- Список товаров-->
+                                             {foreach $discounted_products as $product}
+												 <!-- Товар-->
+
+													 <!-- Фото товара -->
+                                                     {if $product->image}
+														 <div class="col-xs-4">
+															 <div class="image">
+																 <a href="products/{$product->url}"><img src="{$product->image->filename|resize:150:150}"
+																										 alt="{$product->name|escape}"/></a>
+															 </div>
+														 </div>
+                                                     {/if}
+													 <!-- Фото товара (The End) -->
+
+
+
+                                                     {if $product->variants|count > 0}
+														 <!-- Выбор варианта товара -->
+									 <div class="col-xs-4" itemscope itemtype="http://schema.org/Product">
+														 <form class="variants" action="/cart">
+															 <!-- Название товара -->
+															 <span itemprop="name"><a data-product="{$product->id}" href="products/{$product->url}">
+                          {$product->name|escape}</a></span>
+															 <!-- Название товара (The End) -->
+															 <!-- АРТИКУЛ -->
+															 <small>Артикул.{$product->variant->sku}</small>
+															 <!-- АРТИКУЛ  (The End) -->
+
+                                                                 {foreach $product->variants as $v}
+                                                                             {if $v->name}<label class="variant_name" for="discounted_{$v->id}">{$v->name}</label>{/if}
+																			 <span class="price" itemprop="price">{$v->price|convert} <span class="currency">
+                                      {$currency->sign|escape}</span></span>
+                                                                 {/foreach}
+
+															 <a data-product="{$product->id}" href="products/{$product->url}">Подробнее</a>
+														 </form>
 									 </div>
-                                 {/if}
-										 <!-- Название товара -->
-										 <span class="h3_tiny"><a data-product="{$product->id}" href="products/{$product->url}">{$product->name|escape}</a></span><br>
-										 <!-- Название товара (The End) -->
-										 <!-- АРТИКУЛ -->
-										 <span class="art_main">Артикул.{$product->variant->sku}</span>
-										 <!-- АРТИКУЛ  (The End) -->
-                                         {if $product->variants|count > 0}
-										 <!-- Выбор варианта товара -->
-								 <!-- Фото товара (The End) -->
-								 {*<div class="image">*}
-									 {*<a href="/"><img src="images/110102021.200x200.jpg" alt=""></a> *}
-								 {*</div>*}
-							 {*</div>*}
-							 {*<div class="col-xs-4" itemscope itemtype="http://schema.org/Product">*}
-								 {*<a href="/" itemprop="name">фильтр оливы колна 100434342</a><br/>*}
-								 {*<small>Артикул 300000096</small>*}
-								 {*<br/>*}
-								 {*<span class="price" itemprop="price">30.00 грн</span><br/>*}
-								 {*<a href="/">Подробнее</a>*}
-											 <!-- Выбор варианта товара (The End) -->
-                                         {else}
-											 Нет в наличии
-                                         {/if}
-									 </li>
-										 <!-- Товар (The End)-->
-                                     {/foreach}
-								 </ul>
-                                 {/if}
-							 </div>
+														 <!-- Выбор варианта товара (The End) -->
+                                                     {else}
+														 Нет в наличии
+                                                     {/if}
+												 <!-- Товар (The End)-->
+                                             {/foreach}
+                                     {/if}
+								 </div>
 						 </div>
 					 </div>
 				 </div>
 			 </div>
 		 </div>
 	 </div>
-      	{*<div class="big_block_header_rigth">*}
-         			{*<div class="big_block_header_rigth_img">*}
-         				{*<img class="tittle-small" src="design/{$settings->theme|escape}/images/prawo-sale-bg.png" width="346" height="285" alt=""/>*}
-         			{*</div>*}
-                {*<div class="tiny_products_mini">*}
-                     {* Акционные товары *}
-                  {*{get_discounted_products var=discounted_products category_id=[1211] limit=1}*}
-                  {*{if $discounted_products}*}
-                  {*<!-- Список товаров-->*}
-                  {*<ul class="tiny_products1">*}
-                      {*{foreach $discounted_products as $product}*}
-                      {*<!-- Товар-->*}
-                      {*<li class="product">*}
+	 </div>
+		 {/if}
 
-                          {*<!-- Фото товара -->*}
-                          {*{if $product->image}*}
-                          {*<div class="image">*}
-                              {*<a href="products/{$product->url}"><img src="{$product->image->filename|resize:200:200}" alt="{$product->name|escape}"/></a>*}
-                          {*</div>*}
-                          {*{/if}*}
-                          {*<!-- Фото товара (The End) -->*}
 
-                          {*<!-- Название товара -->*}
-                          {*<span class="h3_tiny"><a data-product="{$product->id}" href="products/{$product->url}">{$product->name|escape}</a></span><br>*}
-                          {*<!-- Название товара (The End) -->*}
-                        	{*<!-- АРТИКУЛ -->*}
-                           {*<span class="art_main">Артикул.{$product->variant->sku}</span>*}
-							{*<!-- АРТИКУЛ  (The End) -->*}
-                          {*{if $product->variants|count > 0}*}
-                          {*<!-- Выбор варианта товара -->*}
-                          {*<form class="variants" action="/cart">*}
-                              {*<table>*}
-                              {*{foreach $product->variants as $v}*}
-                              {*<tr class="variant">*}
-                                 {**}
-                                  {*<td>*}
-                                      {*{if $v->name}<label class="variant_name" for="discounted_{$v->id}">{$v->name}</label>{/if}*}
-                                  {*</td>*}
-                                  {*<td><br>*}
-                                      {*<span class="price_sale">{$v->price|convert} <span class="currency">{$currency->sign|escape}</span></span>*}
-                                  {*</td>*}
-                               {**}
-                              {*</tr>*}
-                              {**}
-                               {**}
-                               {**}
-                              {*{/foreach}*}
-                              {*</table>*}
-                           {*<br>*}
-                           {*<a data-product="{$product->id}" href="products/{$product->url}">Подробнее</a>*}
-                          {*</form>*}
-                          {*<!-- Выбор варианта товара (The End) -->*}
-                          {*{else}*}
-                              {*Нет в наличии*}
-                          {*{/if}*}
+ {*<div class="container">*}
+	 {*<div class="row">*}
+		 {*<div class="col-xs-12">*}
+			 {*<div class="col-xs-6">*}
+				 {*<div class="btn-group small-marks">*}
+					 {*<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"*}
+							 {*aria-haspopup="true" aria-expanded="false">*}
+						 {*<span>Подбор автозапчастей <br> по автомобилю <span class="caret"></span></span>*}
+					 {*</button>*}
+					 {*<div class="dropdown-menu">*}
+						 {*<a href="/"><img src="images/marks/daewoo_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/shewrole_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/gaz_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/geely_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/jac_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/chery.png"></a>*}
+						 {*<a href="/"><img src="images/marks/bogdan_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/zil_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/opel_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/waz-ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/lada_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/12_ico.png"></a>*}
+						 {*<a href="/"><img src="images/marks/maz_ico.png"></a>*}
+					 {*</div>*}
+				 {*</div>*}
+			 {*</div>*}
+			 {*<div class="col-xs-6">*}
+				 {*<div class="btn-group small-catalog">*}
+					 {*<button type="button" class="btn dropdown-toggle btn-catalog" data-toggle="dropdown"*}
+							 {*aria-haspopup="true" aria-expanded="false">*}
+						 {*<span class="catalog list-group-item">Каталог товаров <span class="caret"></span></span>*}
+					 {*</button>*}
+					 {*<div class="dropdown-menu">*}
+    {*{function name=categories_tree}*}
+        {*{if $categories}*}
+            {*{foreach $categories as $c}*}
+                {*{if $c->visible}*}
+                    {*{if in_array($category->id, $c->children)} class="active"{/if}*}
+					{*<a style="text-decoration: none; width:200px;" href="catalog/{$c->url}" data-category="{$c->id}" class="list-group-item">{$c->name}</a>*}
+                    {*{if in_array($category->id, $c->children)}{categories_tree categories=$c->subcategories}{/if}*}
+                {*{/if}*}
+            {*{/foreach}*}
 
-                      {*</li>*}
-                      {*<!-- Товар (The End)-->*}
-                      {*{/foreach}*}
-
-                  {*</ul>*}
-                  {*{/if}*}
-         	{*</div>*}
-      	{*</div>*}
-     {*</div>*}
+        {*{/if}*}
+    {*{/function}*}
+    {*{categories_tree categories=$categories}*}
+					 {*</div>*}
+				 {*</div>*}
+			 {*</div>*}
+		 {*</div>*}
+	 {*</div>*}
  {*</div>*}
- {/if} 
- 
-          <div id="brands_curs">
-         	<div class="brands_curs_center">
-             <table>
-  <tbody>
-    <tr>
-      <td width="100" style="font-size: 9px;
-    color: #000000;
-    font-weight: 600;
-    padding: 0px 4px 0px 0px;">Подбор автозапчастей 
-по автомобилю:</td>
-      <td><a href="/catalog/daewoo" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/daewoo_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/lachetti" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/shewrole_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/gaz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/gaz_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/geely" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/geely_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/tata-jac" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/jac_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/geely-chery" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/chery.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/paz-bogdan-foton-isuzu" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/bogdan_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/zil-130" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/zil_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/opel" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/opel_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/uaz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/waz-ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/vaz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/lada_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/zaz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/12_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/catalog/kamaz-maz-kraz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/maz_ico.png" width="71" height="71" alt=""/></a></td>
-      
-    </tr>
-  </tbody>
-</table>
-  <!-- 
-             
-         <table>
-  <tbody>
-    <tr>
-      <td width="100" style="font-size: 9px;
-    color: #000000;
-    font-weight: 600;
-    padding: 0px 4px 0px 0px;"> 
-     </td>
-      <td><a href="/auto/catalog/lanos" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/daewoo_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/lachetti" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/shewrole_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/gaz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/gaz_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/geely" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/geely_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/tata-jac" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/jac_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="#" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/chery.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/paz-bogdan-foton-isuzu" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/bogdan_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="#" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/zil_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/opel" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/opel_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/uaz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/waz-ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="#" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/lada_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="#" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/12_ico.png" width="71" height="71" alt=""/></a></td>
-      <td><a href="/auto/catalog/kamaz-maz-kraz" class="hvr-float-shadow"><img src="design/{$settings->theme|escape}/images/maz_ico.png" width="71" height="71" alt=""/></a></td>
-      
-    </tr>
-  </tbody>
-</table>
-         
-         -->
-         
-         </div>
- 		</div>
- <br>
-	<div id="main">
-		<!-- Основная часть --> 
-		<div id="content">
-			{$content}
-         
+	<div class="cat-slider-wrapper col-xs-12">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 large-marks">
+					<span class="marks">подбор автозапчастей по автомобилю</span>
+					<a href="/"><img src="images/marks/daewoo_ico.png"></a>
+					<a href="/"><img src="images/marks/shewrole_ico.png"></a>
+					<a href="/"><img src="images/marks/gaz_ico.png"></a>
+					<a href="/"><img src="images/marks/geely_ico.png"></a>
+					<a href="/"><img src="images/marks/jac_ico.png"></a>
+					<a href="/"><img src="images/marks/chery.png"></a>
+					<a href="/"><img src="images/marks/bogdan_ico.png"></a>
+					<a href="/"><img src="images/marks/zil_ico.png"></a>
+					<a href="/"><img src="images/marks/opel_ico.png"></a>
+					<a href="/"><img src="images/marks/waz-ico.png"></a>
+					<a href="/"><img src="images/marks/lada_ico.png"></a>
+					<a href="/"><img src="images/marks/12_ico.png"></a>
+					<a href="/"><img src="images/marks/maz_ico.png"></a>
+				</div>
+			</div>
 		</div>
-     
-		<!-- Основная часть (The End) --> 
+	</div>
+	<div class="catalog-wrapper col-xs-12">
+		<div class="container">
+			<div class="row ">
+				<div class="col-sm-3">
+					<div class="list-group large-catalog">
+						<span class="catalog list-group-item">Каталог товаров</span>
+                        {function name=categories_tree}
+                            {if $categories}
+                                    {foreach $categories as $c}
+                                        {if $c->visible}
+											{if in_array($category->id, $c->children)} class="active"{/if}
+												<a style="text-decoration: none; width:200px;" href="catalog/{$c->url}" data-category="{$c->id}" class="list-group-item">{$c->name}</a>
+                                                {if in_array($category->id, $c->children)}{categories_tree categories=$c->subcategories}{/if}
+                                        {/if}
+                                    {/foreach}
+                            {/if}
+                        {/function}
+                        {categories_tree categories=$categories}
 
-		<div id="left">
-			<!-- Меню каталога -->
-         <span  class="catalog_tovarov_h2">Каталог товаров</span>
-			<div id="nav-container">
-			{function name=categories_tree}
-			{if $categories}
-				<ul id="nav">
-				{foreach $categories as $c}
-				{if $c->visible}
-				<li {if in_array($category->id, $c->children)} class="active"{/if}>
-				<a style="text-decoration: none; width:200px;" href="catalog/{$c->url}" data-category="{$c->id}">{$c->name}</a>
-				{if in_array($category->id, $c->children)}{categories_tree categories=$c->subcategories}{/if}
-				</li>
-				{/if}
-				{/foreach}
-				</ul>
-			{/if}
-			{/function}
-			{categories_tree categories=$categories}
-			</div>
-			<!-- Меню каталога (The End)-->		
-			<br>
-         <!-- Акция -->
-         <div class="">
-             <img src="/design/{$settings->theme|escape}/images/Sale_big.jpg" width="239" height="165" alt=""/>
-         	</div>
-		<!-- Акция -->	
-         
-			  <!-- Все бренды -->
-			{* Выбираем в переменную $all_brands все бренды *}
-         
-			{* {get_brands var=all_brands}
-			{if $all_brands}
-			<div id="all_brands">
-				<h2>Все бренды:</h2>
-				{foreach $all_brands as $b}	
-					{if $b->image}
-					<a href="brands/{$b->url}"><img src="{$config->brands_images_dir}{$b->image}" alt="{$b->name|escape}"></a>
-					{else}
-					<a href="brands/{$b->url}">{$b->name}</a>
-					{/if}
-				{/foreach}
-			</div>
-			{/if} *}
-			<!-- Все бренды (The End)-->   
+					</div>
 
-			<!-- Выбор валюты -->
-			{* Выбор валюты только если их больше одной *}
-         
-			{* {if $currencies|count>1}
-			<div id="currencies">
-				<h2>Валюта</h2>
-				<ul>
-					{foreach $currencies as $c}
-					{if $c->enabled} 
-					<li class="{if $c->id==$currency->id}selected{/if}"><a href='{url currency_id=$c->id}'>{$c->name|escape}</a></li>
-					{/if}
-					{/foreach}
-				</ul>
-			</div> 
-			{/if} *}
-			<!-- Выбор валюты (The End) -->	
+					<div class="news-watched">
+						<img class="attention" src="images/Sale_big.jpg" height="171" width="238">
+						<!-- Просмотренные товары -->
+						<div class="watched col-xs-12">
+							<h5>Вы просматривали:</h5>
 
-			
-			<!-- Просмотренные товары -->
-			{get_browsed_products var=browsed_products limit=4}
-			{if $browsed_products}
-			
-				<h2>Вы просматривали:</h2>
-				<ul id="browsed_products">
-				{foreach $browsed_products as $browsed_product}
-					<li>
-					<a href="products/{$browsed_product->url}"><img src="{$browsed_product->image->filename|resize:50:50}" alt="{$browsed_product->name|escape}" title="{$browsed_product->name|escape}"></a>
-					</li>
-				{/foreach}
-				</ul>
-			{/if}
-			<!-- Просмотренные товары (The End)-->
-			
-			
-			<!-- Меню блога -->
-			{* Выбираем в переменную $last_posts последние записи *}
-			{get_posts var=last_posts limit=2}
-			{if $last_posts}
-			<div id="blog_menu">
-				<h2 style="font-size:18px"><a href="blog">Новости</a>, статьи и обзоры</h2>
-				{foreach $last_posts as $post}
-				<ul style="    width: 191px;
+                            {get_browsed_products var=browsed_products limit=4}
+                            {if $browsed_products}
+
+								<ul class="browsed_products">
+                                    {foreach $browsed_products as $browsed_product}
+										<li>
+											<a href="products/{$browsed_product->url}"><img src="{$browsed_product->image->filename|resize:50:50}" alt="{$browsed_product->name|escape}" title="{$browsed_product->name|escape}"></a>
+										</li>
+                                    {/foreach}
+								</ul>
+                            {/if}
+						</div>
+						<!-- Просмотренные товары -->
+						<!-- Меню блога -->
+                        {* Выбираем в переменную $last_posts последние записи *}
+                        {get_posts var=last_posts limit=2}
+                        {if $last_posts}
+							<div id="blog_menu">
+								<h2 style="font-size:18px"><a href="blog">Новости</a>, статьи и обзоры</h2>
+                                {foreach $last_posts as $post}
+									<ul style="    width: 191px;
     border: 1px solid #cccccc;
     padding: 15px 14px 16px 15px;
     line-height: 13px;
     margin: 0px 0px 19px 1px;
     list-style-type: none;">
-                 	
-					<li data-post="{$post->id}">
+
+										<li data-post="{$post->id}">
                     <span style="margin-bottom: 5px !important; width:189px !important; height:141px !important; ">
                     {$post->annotation}
                      </span>
-                    <a style="font-size:13px;text-decoration: none;color: #000000;" href="blog/{$post->url}">{$post->name|escape}</a><br><br>
-                    <span style="font-size:12px;color:#959595;">{$post->date|date}</span> <a href="blog/{$post->url}"style="font-size:13px;text-decoration: none;float: right;">Подробнее</a> </li>
-				</ul>
-				{/foreach}
-			</div>
-			{/if}
-			<!-- Меню блога  (The End) -->
-			
-		</div>			
+											<a style="font-size:13px;text-decoration: none;color: #000000;" href="blog/{$post->url}">{$post->name|escape}</a><br><br>
+											<span style="font-size:12px;color:#959595;">{$post->date|date}</span> <a href="blog/{$post->url}"style="font-size:13px;text-decoration: none;float: right;">Подробнее</a> </li>
+									</ul>
+                                {/foreach}
+							</div>
+                        {/if}
+						<!-- Меню блога  (The End) -->
+					</div>
+				</div>
 
-	</div>{if $page && $page->url==''}
-	<!-- Вся страница (The End)--> 
- <div id="dop_kcategorii">
-         Так же в нашем магазине огромный выбор запчастей для:
- 		 		<center><table width="1025" border="1" style="margin-left:20px;margin-top:200px">
-  				<tbody>
-                    <tr>
-                      <td><a href="/auto/catalog/paz-bogdan-foton-isuzu" class="tables_button">Смотреть каталог</a></td>
-                      <td><a href="#" class="tables_button">Смотреть каталог</a></td>
-                      <td><a href="#" class="tables_button">Смотреть каталог</a></td>
-                      <td><a href="#" class="tables_button">Смотреть каталог</a></td>
-                    </tr>
-                  </tbody>
-                </table>
-				</center>
- 		</div>
+
+
+	<div class="col-xs-12 col-sm-9 products" itemscope itemtype="http://schema.org/ItemList">
+		<!-- Основная часть --> 
+		<div id="content">
+			{$content}
+
+		</div>
+     
+		<!-- Основная часть (The End) -->
+
+	</div>
+			</div>
+		</div>
+	</div>
+
+				{if $page && $page->url==''}
+	<!-- Вся страница (The End)-->
+	<div class="container alsoo col-sm-12">
+		<h5 class="down-header">Так же в нашем магазине огромный выбор запчастей для:</h5>
+		<div class="row">
+			<div class="also">
+				<div class="tata col-xs-3">
+
+					<button class="btn-watch"><a href="/auto/catalog/paz-bogdan-foton-isuzu">Смотреть каталог</a></button>
+				</div>
+				<div class="i-van col-xs-3">
+
+					<button class="btn-watch">Смотреть каталог</button>
+				</div>
+				<div class="jac col-xs-3">
+
+					<button class="btn-watch">Смотреть каталог</button>
+				</div>
+				<div class="chery col-xs-3">
+
+					<button class="btn-watch">Смотреть каталог</button>
+				</div>
+			</div>
+		</div>
+	</div>
+ {*<div id="dop_kcategorii">*}
+         {*Так же в нашем магазине огромный выбор запчастей для:*}
+ 		 		{*<center><table width="1025" border="1" style="margin-left:20px;margin-top:200px">*}
+  				{*<tbody>*}
+                    {*<tr>*}
+                      {*<td><a href="/auto/catalog/paz-bogdan-foton-isuzu" class="tables_button">Смотреть каталог</a></td>*}
+                      {*<td><a href="#" class="tables_button">Смотреть каталог</a></td>*}
+                      {*<td><a href="#" class="tables_button">Смотреть каталог</a></td>*}
+                      {*<td><a href="#" class="tables_button">Смотреть каталог</a></td>*}
+                    {*</tr>*}
+                  {*</tbody>*}
+                {*</table>*}
+				{*</center>*}
+ 		{*</div>*}
  
  <div id="info_tex_texsnab">
           	 <div class="Logo_mini_o_nas" style="margin-top:-14px">
@@ -565,56 +515,88 @@
   {/if}
  		</div>
 	<!-- Футер --><br>
- <div id="sposobu_oplatu">
-              <div class="sposobu_oplatu_width">
-                     <div class="oplata_ico">
-                        <img src="/design/{$settings->theme|escape}/images/iconki_oplata.jpg" width="555" height="44" alt=""/> 
-                    </div>
-                     <div class="button_oplata">
-                        <a href="#" class="sulka_button_oplata">Способы оплаты</a>
-                     </div>
-              </div>
-     	</div>
-	<div id="footer">
-     	<div class="footer_width">
-			<div class="logo_block_footer">
-             <img src="/design/{$settings->theme|escape}/images/logo_header.png" width="270" height="46" alt=""/>
-             <p style="font-size:13px">© 2010-2015 интернет-магазин «TEXSNAB»</p>
-     		</div>
- 			<div class="block_footer">
-             		<div class="li_block_footer">
-                     <span>        </span>
-                     <ul class="ul_block_footer">
-                      <!--<li>Контакты</li>
-                      <li>Оплата</li>
-                      <li>Доставка</li>
-                      <li>Статьи и Новости</li>
-                      <li>О предприятии</li>-->
-                     </ul>
-             		</div>
-             		<div class="li_block_footer">
-                     <span>               </span>
-                     <ul class="ul_block_footer">
-                      <li>         </li>
-                      <!--<li>Оплата</li>
-                      <li>Доставка</li>
-                      <li>Статьи и Новости</li>
-                      <li>О предприятии</li>-->
-                     </ul>
-             		</div>
-             		<div class="li_block_footer">
-                     <span>    </span>
-                     <ul class="ul_block_footer">
-                      <a href="/contact">Контакты</a><br>
-                      <a href="/oplata">Оплата</a><br>
-                      <a href="/dostavka">Доставка</a><br>
-                      <a href="/blog">Статьи и Новости</a><br>
-                      <a href="/o-predpriyatii">О предприятии</a>
-                    </ul>
-             		</div>
- 			</div>
-     </div>
+ {*<div id="sposobu_oplatu">*}
+              {*<div class="sposobu_oplatu_width">*}
+                     {*<div class="oplata_ico">*}
+                        {*<img src="/design/{$settings->theme|escape}/images/iconki_oplata.jpg" width="555" height="44" alt=""/> *}
+                    {*</div>*}
+                     {*<div class="button_oplata">*}
+                        {*<a href="#" class="sulka_button_oplata">Способы оплаты</a>*}
+                     {*</div>*}
+              {*</div>*}
+     	{*</div>*}
+	<div class="container payment">
+		<div class="row">
+			<ul class="payments">
+				<li class="discover"><a href="#"></a></li>
+				<li class="visa"><a href="#"></a></li>
+				<li class="mastercard"><a href="#"></a></li>
+				<li class="maestro"><a href="#"></a></li>
+				<li class="cirrus"><a href="#"></a></li>
+				<li class="paypal"><a href="#"></a></li>
+				<li class="western-union"><a href="#"></a></li>
+				<li class="visa-electron"><a href="#"></a></li>
+				<li class="skrill"><a href="#"></a></li>
+			</ul>
+		</div>
 	</div>
+	<div class="container ">
+		<div class="row footer col-xs-12">
+			<div class="footer-left col-sm-6 col-xs-12">
+				<img src="images/logo_header.png" height="46" width="270">
+				<br>
+				<span>© 2010-2015 интернет-магазин «TEXSNAB»</span>
+			</div>
+			<div class="footer-right col-sm-6">
+				<ul class="nav footer-links">
+					<li><a href="#">Контакты</a></li>
+					<li><a href="#">Оплата и доставка</a></li>
+					<li><a href="#">Статьи и новости</a></li>
+					<li><a href="#">О предприятии</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	{*<div id="footer">*}
+     	{*<div class="footer_width">*}
+			{*<div class="logo_block_footer">*}
+             {*<img src="/design/{$settings->theme|escape}/images/logo_header.png" width="270" height="46" alt=""/>*}
+             {*<p style="font-size:13px">© 2010-2015 интернет-магазин «TEXSNAB»</p>*}
+     		{*</div>*}
+ 			{*<div class="block_footer">*}
+             		{*<div class="li_block_footer">*}
+                     {*<span>        </span>*}
+                     {*<ul class="ul_block_footer">*}
+                      {*<!--<li>Контакты</li>*}
+                      {*<li>Оплата</li>*}
+                      {*<li>Доставка</li>*}
+                      {*<li>Статьи и Новости</li>*}
+                      {*<li>О предприятии</li>-->*}
+                     {*</ul>*}
+             		{*</div>*}
+             		{*<div class="li_block_footer">*}
+                     {*<span>               </span>*}
+                     {*<ul class="ul_block_footer">*}
+                      {*<li>         </li>*}
+                      {*<!--<li>Оплата</li>*}
+                      {*<li>Доставка</li>*}
+                      {*<li>Статьи и Новости</li>*}
+                      {*<li>О предприятии</li>-->*}
+                     {*</ul>*}
+             		{*</div>*}
+             		{*<div class="li_block_footer">*}
+                     {*<span>    </span>*}
+                     {*<ul class="ul_block_footer">*}
+                      {*<a href="/contact">Контакты</a><br>*}
+                      {*<a href="/oplata">Оплата</a><br>*}
+                      {*<a href="/dostavka">Доставка</a><br>*}
+                      {*<a href="/blog">Статьи и Новости</a><br>*}
+                      {*<a href="/o-predpriyatii">О предприятии</a>*}
+                    {*</ul>*}
+             		{*</div>*}
+ 			{*</div>*}
+     {*</div>*}
+	{*</div>*}
 	<!-- Футер (The End)--> 
 	
 </body>
